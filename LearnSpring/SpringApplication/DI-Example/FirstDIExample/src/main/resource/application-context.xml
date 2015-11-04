@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	  http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="song1" class="org.learnSpring.DI.Song">
+        <property name="songName" value="Dhiva Dhivra." />
+    	<property name="singers"> 
+    		<list>
+    			<value>"MM Keravani" </value>
+    		</list>
+    	</property>	
+	</bean>
+	
+	<bean id="song2" class="org.learnSpring.DI.Song">
+        <property name="songName" value="Manohri Manohari." />
+    	<property name="singers"> 
+    		<list>
+    			<value>"MM Keravani" </value>
+    		</list>
+    	</property>	
+	</bean>
+	
+	<bean id="song3" class="org.learnSpring.DI.Song">
+        <property name="songName" value="Shvuni Anna." />
+    	<property name="singers"> 
+    		<list>
+    			<value>"Kaliash kher" </value>
+    			<value>"MM Keravani" </value>
+    		</list>
+    	</property>		
+	</bean>
+
+    <bean id="movie" class="org.learnSpring.DI.Movie">
+        <property name="movieName"    value="Baahubali." />
+    	<property name="directorName" value="SS Rajmouli." />
+    	<property name="budget"       value="250 Cr" />
+    	<property name="movieSongs">
+    		<list>
+				<ref bean = "song1" />
+    			<ref bean = "song2" />
+    			<ref bean = "song3" />
+			</list>
+    	</property>
+	</bean>
+
+</beans>
