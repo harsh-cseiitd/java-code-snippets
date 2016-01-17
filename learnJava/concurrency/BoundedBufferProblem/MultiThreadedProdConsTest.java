@@ -14,27 +14,20 @@
  * limitations under the License.
  */
 
-public class SimpleProducerConsumerTest {
+public class MultiThreadedProdConsTest {
 
 	public static void main(String[] args) {
-
 		SharedBuffer<Integer> sb = new SharedBuffer<Integer>(5);
-		Producer<Integer> prod   = new SimpleProducer<Integer>("Producer", sb);
-		Consumer<Integer> con    = new SimpleConsumer<Integer>("Consumer", sb);
+		Integer[] array1 = new Integer[] {10, 20, 30,40,50};
+		Integer[] array2 = new Integer[] {60, 70, 80,90,100};
 		
-		prod.startProducing();
+		MultiThreadedProducer<Integer> prod1   = new MultiThreadedProducer<Integer>("Producer1", sb, array1);
+		MultiThreadedProducer<Integer> prod2   = new MultiThreadedProducer<Integer>("Producer2", sb, array2);
+		MultiThreadedConsumer<Integer> con     = new MultiThreadedConsumer<Integer>("Consumer", sb);
+		
+		prod1.startProducing();
+		prod2.startProducing();
 		con.startConsuming();
-		
-		con.get();
-		prod.put(1);
-		prod.put(2);
-		prod.put(3);
-		prod.put(4);
-		prod.put(5);
-		prod.put(6);
-		con.get();
-		con.get();
-		con.get();
 	}
 
 }

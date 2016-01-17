@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-public class SimpleConsumer<T> implements Consumer<T> {
+public class MultiThreadedConsumer<T> implements Consumer<T>, Runnable {
 	SharedBuffer<T> sb;
 	private String name;
 	
-	public SimpleConsumer(String nm, SharedBuffer<T> buffer) {
+	public MultiThreadedConsumer(String nm, SharedBuffer<T> buffer) {
 		this.sb = buffer;
 		this.name = nm;
 	}
@@ -37,8 +37,15 @@ public class SimpleConsumer<T> implements Consumer<T> {
 		}
 		return item;	
 	}
-	
+
 	public void startConsuming() {
 		System.out.println("Starting : " + name);
+		new Thread(this).start();
+	}
+
+	public void run() {
+		for(int i =0; i<10; i++) {
+			System.out.println(name + " Got item : " + get());
+		}
 	}
 }

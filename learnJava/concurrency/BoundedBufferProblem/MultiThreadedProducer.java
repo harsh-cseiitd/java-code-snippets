@@ -14,31 +14,37 @@
  * limitations under the License.
  */
 
-public class SimpleConsumer<T> implements Consumer<T> {
-	SharedBuffer<T> sb;
+public class MultiThreadedProducer<T> implements Producer<T>, Runnable {
+	private SharedBuffer<T> sb;
 	private String name;
+	private T[] items;
 	
-	public SimpleConsumer(String nm, SharedBuffer<T> buffer) {
-		this.sb = buffer;
+	public MultiThreadedProducer(String nm, SharedBuffer<T> buffer, T[] objs) {
+		this.items = objs;
 		this.name = nm;
+		this.sb = buffer;
 	}
 
-	public T get() {
-		T item = null;
+	public void put(T item){
 		try {
-			item = sb.get();
-			if (item == null) {
-				System.out.println(name + ": couldn't get item from Buffer because it is Empty.");	
+			if (sb.add(item)) {
+				System.out.println(name + " added " + item + " in Buffer");
 			} else {
-				System.out.println(name + ": got " + item + " from Buffer");
+				System.out.println(name + " couldn't add " + item + " in Buffer because it is full.");
 			}
 		} catch (InterruptedException e) {
-			System.out.println(name + ": Exception occured in getting item from buffer: " + e);
-		}
-		return item;	
+			System.out.println(name + ": Exception occured in adding " + item + " " + e);
+		}	
 	}
-	
-	public void startConsuming() {
+
+	public void startProducing() {
 		System.out.println("Starting : " + name);
+		new Thread(this).start();
+	}
+
+	public void run() {
+		for (int i = 0; i < items.length; i++) {
+			put(items[i]);
+		}
 	}
 }

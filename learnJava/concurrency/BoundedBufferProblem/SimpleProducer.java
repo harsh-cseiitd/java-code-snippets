@@ -34,4 +34,8 @@ public class SimpleProducer<T> implements Producer<T>  {
 			System.out.println(name + ": Exception occured in adding " + item + " " + e);
 		}	
 	}
+	
+	public void startProducing() {
+		System.out.println("Starting : " + name);
+	}
 }

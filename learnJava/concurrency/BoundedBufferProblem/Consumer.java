@@ -18,4 +18,6 @@ public interface Consumer <T> {
 
 	public T get();
 	
+	public void startConsuming();
+	
 }

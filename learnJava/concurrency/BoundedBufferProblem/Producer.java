@@ -18,4 +18,6 @@ public interface Producer<T> {
 	
 	public void put(T item);
 	
+	public void startProducing();
+	
 }
