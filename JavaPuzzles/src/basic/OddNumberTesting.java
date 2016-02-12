@@ -1,9 +1,9 @@
-package puzzles.basic;
+package basic;
 
 public class OddNumberTesting {
 
 	/** This function computes incorrect result
-	 * for negative odd numbers.
+	 * for all negative numbers.
 	 */
 	public static boolean isOdd1(int num) {
 		return num % 2 == 1;
