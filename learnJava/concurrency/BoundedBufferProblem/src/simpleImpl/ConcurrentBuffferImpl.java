@@ -32,8 +32,8 @@ public class ConcurrentBuffferImpl<T> implements  ConcurrentBufffer<T> {
 	private ArrayList<T> buffer;
 	private final ReentrantLock readLock;
 	private final ReentrantLock writeLock;
-	
-	
+
+
 	public ConcurrentBuffferImpl() {
 		this(DEFAULT_CAPACITY);
 	}
@@ -127,7 +127,7 @@ public class ConcurrentBuffferImpl<T> implements  ConcurrentBufffer<T> {
 		if (((readIndex  == START_READ_INDEX) && (writeIndex == capacity -1)) ||
 				((writeIndex == readIndex -1)&& (writeIndex > START_WRITE_INDEX))) {
 				result = true;
-			}
+		}
 		return result;
 	}
 	
@@ -184,26 +184,26 @@ public class ConcurrentBuffferImpl<T> implements  ConcurrentBufffer<T> {
 		int timeout    = 10;
 		int timeTaken  = 0;
 		while (timeTaken <= timeout) {
-            boolean gotReadLock  = false;
-            boolean gotWriteLock = false;
-            try {
-            	gotReadLock  = readLock.tryLock();
-            	gotWriteLock = writeLock.tryLock();
-            } catch (Exception e) {
-            	System.out.println("Exception occurs in acquiring both locks: " + e);
-            } finally {
-                if (gotReadLock && gotWriteLock) return true;
-                else if (gotReadLock) readLock.unlock();
-                else if (gotWriteLock) writeLock.unlock();
-            }
-            timeTaken = timeTaken + 2;
-            try {
+			boolean gotReadLock  = false;
+			boolean gotWriteLock = false;
+			try {
+				gotReadLock  = readLock.tryLock();
+				gotWriteLock = writeLock.tryLock();
+			} catch (Exception e) {
+				System.out.println("Exception occurs in acquiring both locks: " + e);
+			} finally {
+				if (gotReadLock && gotWriteLock) return true;
+				else if (gotReadLock) readLock.unlock();
+				else if (gotWriteLock) writeLock.unlock();
+			}
+			timeTaken = timeTaken + 2;
+			try {
 				Thread.sleep(2);
 			} catch (InterruptedException e) {
 				System.out.println("Exception occurs in thread sleep: " + e);
 				return result;
 			}
-        }
+		}
 		return result;
 	}
 
@@ -222,17 +222,17 @@ public class ConcurrentBuffferImpl<T> implements  ConcurrentBufffer<T> {
 	}
 
 	private boolean releaseBothLocksWithoutBlocking() {
-		 boolean gotReadLock  = readLock.isLocked();
-         boolean gotWriteLock = writeLock.isLocked();
-         
-         if (gotReadLock && gotWriteLock) {
-        	 readLock.unlock();
-        	 writeLock.unlock();
-         } else if (gotReadLock) {
-        	 readLock.unlock();
-         } else if (gotWriteLock) {
-        	 writeLock.unlock();
-         }
-         return true;
+		boolean gotReadLock  = readLock.isLocked();
+		boolean gotWriteLock = writeLock.isLocked();
+
+		if (gotReadLock && gotWriteLock) {
+			readLock.unlock();
+			writeLock.unlock();
+		} else if (gotReadLock) {
+			readLock.unlock();
+		} else if (gotWriteLock) {
+			writeLock.unlock();
+		}
+		return true;
 	}
 }
